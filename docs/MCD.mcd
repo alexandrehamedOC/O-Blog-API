@@ -1,0 +1,3 @@
+CATEGORY: label, route
+belongs to, 11 POST, 0N CATEGORY
+POST: title, slug, excerpt, content

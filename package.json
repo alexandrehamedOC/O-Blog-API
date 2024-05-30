@@ -1,0 +1,34 @@
+{
+  "name": "spedata-atelier-oblog-yannoclock",
+  "version": "1.0.0",
+  "description": "Il est temps pour vous de mettre en pratique toutes les bonnes pratiques et les outils que l'on a découvert en ce début de Spé API & Data.",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "dev": "NODE_ENV=development DEBUG=app:* npx nodemon",
+    "start": "NODE_ENV=production node index.js",
+    "db:create": "sqitch deploy --verify",
+    "db:import": "DEBUG=import:* node ./data/data.import.js",
+    "db:reset": "sqitch revert -y && npm run db:create && npm run db:import"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.2",
+    "joi": "^17.12.2",
+    "pg": "^8.11.3",
+    "pug": "^3.0.2",
+    "winston": "^3.11.0"
+  }
+}

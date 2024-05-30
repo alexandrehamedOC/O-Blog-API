@@ -1,0 +1,103 @@
+@endpoint=http://localhost:{{$dotenv PORT}}/api
+
+### Récupération de toutes les catégories
+GET {{endpoint}}/categories
+
+### Récupération de la catégorie avec l'id 1
+GET {{endpoint}}/categories/1
+
+### Récupération de la catégorie qui n'existe pas
+GET {{endpoint}}/categories/11
+
+### Création d'une catégorie en erreur a cause d'un oubli
+POST {{endpoint}}/categories
+Content-Type: application/json
+
+{
+    "label": "Nouvelle catégorie"
+}
+
+### Création d'une catégorie en erreur a cause d'un souci de caractère
+POST {{endpoint}}/categories
+Content-Type: application/json
+
+{
+    "label": "Nouvelle catégorie",
+    "route": "/nouvelle categorie"
+}
+
+### Création d'une catégorie
+# @name categoryInsert
+POST {{endpoint}}/categories
+Content-Type: application/json
+
+{
+    "label": "Nouvelle catégorie",
+    "route": "/nouvelle-categorie"
+}
+
+### Modification de la catégorie avec l'id categoryInsert
+PATCH {{endpoint}}/categories/{{categoryInsert.response.body.data.id}}
+Content-Type: application/json
+
+{
+    "label": "Nouvelle catégorie modifiée"
+}
+
+### Suppression de la catégorie avec l'id categoryInsert
+DELETE {{endpoint}}/categories/{{categoryInsert.response.body.data.id}}
+
+
+### Récupération de tous les posts
+GET {{endpoint}}/posts
+
+### Récupération de tous les posts de la catégorie avec l'id 3
+GET {{endpoint}}/posts/categories/3
+
+### Récupération du post avec l'id 1
+GET {{endpoint}}/posts/1
+
+### Récupération du post qui n'existe pas
+GET {{endpoint}}/posts/11
+
+### Création d'un post en erreur a cause d'un oubli
+POST {{endpoint}}/posts
+Content-Type: application/json
+
+{
+    "title": "Nouveau post"
+}
+
+### Création d'un post en erreur a cause d'un souci de caractère
+POST {{endpoint}}/posts
+Content-Type: application/json
+
+{
+    "title": "Nouveau post",
+    "slug": "nouveau post"
+}
+
+### Création d'un post
+# @name postInsert
+POST {{endpoint}}/posts
+Content-Type: application/json
+
+{
+    "title": "Nouveau post",
+    "slug": "nouveau-post",
+    "categories_id": 1
+}
+
+### Modification du post avec l'id postInsert
+PATCH {{endpoint}}/posts/{{postInsert.response.body.data.id}}
+Content-Type: application/json
+
+{
+    "title": "Nouveau post modifié",
+    "slug": "nouveau-post-modifie",
+    "categories_id": 1
+}
+
+### Suppression du post avec l'id postInsert
+DELETE {{endpoint}}/posts/{{postInsert.response.body.data.id}}
+
