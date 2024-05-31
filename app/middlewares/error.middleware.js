@@ -28,7 +28,7 @@ export default (err, req, res, next) => {
     message = 'Internal Server Error';
   }
 
-  if (req.format === 'html') {
+  if (res.returnFormat === 'html') {
     return res.status(status).render('error', {
       httpStatus: status,
       message,

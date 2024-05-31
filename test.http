@@ -1,5 +1,8 @@
 @endpoint=http://localhost:{{$dotenv PORT}}/api
 
+### Erreur 404
+GET {{endpoint}}/perdu
+
 ### Récupération de toutes les catégories
 GET {{endpoint}}/categories
 

@@ -3,8 +3,10 @@ import controller from '../../controllers/website/index.website.controller.js';
 
 const router = express.Router();
 
-router.use((req, _, next) => {
-  req.format = 'html';
+router.use((_, res, next) => {
+  if(!res.returnFormat){
+    res.returnFormat = 'html';
+  }
   next();
 });
 

@@ -2,7 +2,7 @@ import CoreController from './core.controller.js';
 import { postsDatamapper, categoriesDatamapper } from '../../datamappers/index.datamapper.js';
 import ApiError from '../../errors/api.error.js';
 
-export default class CategoriesController extends CoreController {
+export default class PostController extends CoreController {
   static entityName = 'Post';
 
   static mainDatamapper = postsDatamapper;

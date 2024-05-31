@@ -4,8 +4,8 @@ import postsRouter from './posts.api.router.js';
 
 const router = express.Router();
 
-router.use((req, _, next) => {
-  req.format = 'json';
+router.use((_, res, next) => {
+  res.returnFormat = 'json';
   next();
 });
 

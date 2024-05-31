@@ -6,14 +6,24 @@ import updateSchema from '../../schemas/categories.update.schema.js';
 import validationMiddleware from '../../middlewares/validation.middleware.js';
 
 const router = express.Router();
+
 router.route('/')
-  /**
+/**
    * GET /api/categories
    * @summary Get all categories
    * @tags Category
    * @return {[Category]} 200 - success response - application/json
    */
 // Comme les method des controller vont être appelés à travers une fonction fléché de callback, elle vont perdre leur contexte. Pour le conserver (l'embarquer avec elles) on peut utiliser la méthode .bind(<contexte>) en fournissant le contexte. Ici on leur attache la classe du controller
+/*
+Controller.getAll = async getAll(_, res) {
+    const rows = await this.mainDatamapper.findAll();
+    return res.json({ data: rows });
+  }
+Quand le routeur va executer la function il va faire getAll()
+Donc ici on a plus de reference pour this
+dans le cas ou l'on execute Controller.getAll() alors que le contexte est a gauche du point alors on a le contexte
+*/
   .get(wrapper(Controller.getAll.bind(Controller)))
   /**
    * POST /api/categories
@@ -60,3 +70,17 @@ router.route('/:id(\\d+)')
   .delete(wrapper(Controller.delete.bind(Controller)));
 
 export default router;
+/*
+const obj = {
+  context: function(){
+    console.log(this);//affiche obj
+  },
+  alsoContext(){
+    console.log(this);//affiche obj
+  },
+  noContext: () => {
+    console.log(this);//affiche undefined
+  },
+};
+console.log(obj.noContext());
+*/
