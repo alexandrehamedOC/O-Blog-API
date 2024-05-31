@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 import logger from '../utils/logger.js';
-
+/**
+ * @typedef {object} ApiError
+ * @property {string} message - Error message
+ * @property {string} name - Error name
+ * @property {object} infos - Additionnal informations
+ */
 export default (err, req, res, next) => {
   let { status, message } = err;
 

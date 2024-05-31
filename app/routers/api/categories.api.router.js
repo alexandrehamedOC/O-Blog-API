@@ -7,13 +7,56 @@ import validationMiddleware from '../../middlewares/validation.middleware.js';
 
 const router = express.Router();
 router.route('/')
-  // Comme les method des controller vont être appelés à travers une fonction fléché de callback, elle vont perdre leur contexte. Pour le conserver (l'embarquer avec elles) on peut utiliser la méthode .bind(<contexte>) en fournissant le contexte. Ici on leur attache la classe du controller
+  /**
+   * GET /api/categories
+   * @summary Get all categories
+   * @tags Category
+   * @return {[Category]} 200 - success response - application/json
+   */
+// Comme les method des controller vont être appelés à travers une fonction fléché de callback, elle vont perdre leur contexte. Pour le conserver (l'embarquer avec elles) on peut utiliser la méthode .bind(<contexte>) en fournissant le contexte. Ici on leur attache la classe du controller
   .get(wrapper(Controller.getAll.bind(Controller)))
+  /**
+   * POST /api/categories
+   * @summary Create a category
+   * @tags Category
+   * @param {InputCategory} request.body.required - category info
+   * @return {Category} 200 - success response - application/json
+   * @return {ApiError} 400 - Bad request response - application/json
+   * @return {ApiError} 404 - Category not found - application/json
+   */
   .post(validationMiddleware(createSchema, 'body'), wrapper(Controller.create.bind(Controller)));
 
 router.route('/:id(\\d+)')
+  /**
+   * GET /api/categories/{id}
+   * @summary Get one category
+   * @tags Category
+   * @param {number} id.path.required - category identifier
+   * @return {Category} 200 - success response - application/json
+   * @return {ApiError} 400 - Bad request response - application/json
+   * @return {ApiError} 404 - Category not found - application/json
+   */
   .get(wrapper(Controller.getOne.bind(Controller)))
+  /**
+   * PATCH /api/categories/{id}
+   * @summary Update one category
+   * @tags Category
+   * @param {number} id.path.required - category identifier
+   * @param {InputCategory} request.body.required - category info
+   * @return {Category} 200 - success response - application/json
+   * @return {ApiError} 400 - Bad request response - application/json
+   * @return {ApiError} 404 - Category not found - application/json
+   */
   .patch(validationMiddleware(updateSchema, 'update'), wrapper(Controller.update.bind(Controller)))
+  /**
+   * DELETE /api/categories/{id}
+   * @summary Delete one category
+   * @tags Category
+   * @param {number} id.path.required - category identifier
+   * @return {Category} 200 - success response - application/json
+   * @return {ApiError} 400 - Bad request response - application/json
+   * @return {ApiError} 404 - Category not found - application/json
+   */
   .delete(wrapper(Controller.delete.bind(Controller)));
 
 export default router;

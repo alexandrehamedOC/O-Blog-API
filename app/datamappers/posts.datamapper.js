@@ -1,5 +1,24 @@
 import CoreDatamapper from './core.datamapper.js';
 
+/**
+ * @typedef {object} Post
+ * @property {number} id - Indentifiant unique, Pk de la table
+ * @property {string} slug - URL d'accès au post (pour le SEO)
+ * @property {string} title - Titre de l'article
+ * @property {string} excerpt - Texte d'introduction de l'article
+ * @property {string} content - Contenu de l'article
+ * @property {number} categoryId - Id de la catégorie à laquelle est rattaché le posts
+ */
+
+/**
+ * @typedef {object} InputPost
+ * @property {string} slug - URL d'accès au post (pour le SEO)
+ * @property {string} title - Titre de l'article
+ * @property {string} excerpt - Texte d'introduction de l'article
+ * @property {string} content - Contenu de l'article
+ * @property {number} categoryId - Id de la catégorie à laquelle est rattaché le posts
+ */
+
 export default class CategoriesDatamapper extends CoreDatamapper {
   static tableName = 'posts';
 
