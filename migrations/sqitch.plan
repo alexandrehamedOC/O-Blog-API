@@ -3,3 +3,4 @@
 
 base-structure 2024-02-26T09:04:51Z Yann <yann@oclock.io> # structrure de base oblog
 constraints 2024-02-26T13:39:38Z Yann <yann@oclock.io> # ajout de contraintes de validation
+view 2024-06-03T08:08:23Z Yann <yann@oclock.io> # ajout de vue pour récupération de post

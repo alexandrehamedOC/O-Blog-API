@@ -14,5 +14,7 @@ import CoreDatamapper from './core.datamapper.js';
  */
 
 export default class CategoriesDatamapper extends CoreDatamapper {
-  static tableName = 'categories';
+  // Ici on pas de vue, bah on récupère directement de la table
+  static readTableName = 'categories';
+  static writeTableName = 'categories';
 }

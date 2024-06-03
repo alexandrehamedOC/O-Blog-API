@@ -1,5 +1,6 @@
 export default class CoreDatamapper {
-  static tableName = null;
+  static readTableName = null;
+  static writeTableName = null;
   static _instance;
 
   constructor(client) {
@@ -12,12 +13,12 @@ export default class CoreDatamapper {
   }
 
   async findAll() {
-    const result = await this.client.query(`SELECT * FROM ${this.constructor.tableName}`);
+    const result = await this.client.query(`SELECT * FROM ${this.constructor.readTableName}`);
     return result.rows;
   }
 
   async findById(id) {
-    const result = await this.client.query(`SELECT * FROM ${this.constructor.tableName} WHERE id = $1`, [id]);
+    const result = await this.client.query(`SELECT * FROM ${this.constructor.readTableName} WHERE id = $1`, [id]);
     return result.rows[0];
   }
 
@@ -36,7 +37,7 @@ export default class CoreDatamapper {
     */
 
     const result = await this.client.query(`
-      INSERT INTO "${this.constructor.tableName}"
+      INSERT INTO "${this.constructor.writeTableName}"
       (${columns})
       VALUES (${placeholders})
       RETURNING *
@@ -52,7 +53,7 @@ export default class CoreDatamapper {
     values ==> ['Angular','/angular']
     */
     const result = await this.client.query(`
-      UPDATE ${this.constructor.tableName} SET
+      UPDATE ${this.constructor.writeTableName} SET
         ${fieldPlaceholders},
         updated_at = now()
       WHERE id = $${fieldPlaceholders.length + 1}
@@ -69,7 +70,7 @@ export default class CoreDatamapper {
   }
 
   async delete(id) {
-    const result = await this.client.query(`DELETE FROM ${this.constructor.tableName} WHERE id = $1`, [id]);
+    const result = await this.client.query(`DELETE FROM ${this.constructor.writeTableName} WHERE id = $1`, [id]);
     // On transforme 0 ou 1 en false ou true
     // Donc on s'assure que la méthode renvoi une valeur de type boolean
     return !!result.rowCount;
