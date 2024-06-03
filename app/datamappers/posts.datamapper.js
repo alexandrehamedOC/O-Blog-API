@@ -22,9 +22,62 @@ import CoreDatamapper from './core.datamapper.js';
 export default class CategoriesDatamapper extends CoreDatamapper {
   static tableName = 'posts';
 
+  static queryStr = `
+    SELECT 
+      "posts".*,
+      "categories"."label" AS "category" 
+    FROM "posts"
+    JOIN "categories"
+      ON "categories"."id" = "posts"."categories_id"
+  `;
+
+  async findAll() {
+    const result = await this.client.query(this.queryStr);
+    return result.rows;
+  }
+
+  async findById(id) {
+    const result = await this.client.query(`
+      ${this.queryStr}
+      WHERE "posts"."id" = $1
+    `, [id]);
+    return result.rows[0];
+  }
+
+  /*
+{
+    "id": 1,
+    "title": "Angular, une fausse bonne idée ?",
+    "slug": "angular-une-fausse-bonne-idee",
+    "excerpt": "Lorem …",
+    "content": "Angular, …",
+    "categories_id": 2,
+    "created_at": "2024-05-31T11:32:58.140Z",
+    "updated_at": null,
+    "id": 2,
+    "label": "Angular",
+    "route": "/angular",
+    "created_at": "2024-05-31T11:32:58.140Z",
+    "updated_at": null
+  }
+
+  {
+    "title": "Angular, une fausse bonne idée ?",
+    "slug": "angular-une-fausse-bonne-idee",
+    "excerpt": "Lorem …",
+    "content": "Angular, …",
+    "categories_id": 2,
+    "id": 2,
+    "label": "Angular",
+    "route": "/angular",
+    "created_at": "2024-05-31T11:32:58.140Z",
+    "updated_at": null
+  }
+  */
+
   async findByCategory(categoryId) {
     const result = await this.client.query(`
-      SELECT * FROM "${this.constructor.tableName}"
+    ${this.queryStr}
       WHERE categories_id = $1
     `, [categoryId]);
     return result.rows;

@@ -8,7 +8,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "NODE_ENV=development DEBUG=app:* npx nodemon",
+    "dev": "NODE_ENV=development DEBUG=app:* npx nodemon --config nodemon.json",
     "start": "NODE_ENV=production node index.js",
     "db:create": "sqitch deploy --verify",
     "db:import": "DEBUG=import:* node ./data/data.import.js",
