@@ -2,6 +2,6 @@
 
 BEGIN;
 
-DROP VIEW "posts_with_category"
+DROP VIEW "posts_with_category";
 
 COMMIT;

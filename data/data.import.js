@@ -8,7 +8,12 @@ const debugPostsImport = debug('import:posts');
 
 const { Client } = pg;
 
-const client = new Client({connectionString: process.env.PGURL, ssl:true});
+console.log(process.env.PGURL);
+const clientOptions = {connectionString: process.env.PGURL};
+if(process.env.NODE_ENV === 'production'){
+  clientOptions.ssl = true;
+}
+const client = new Client(clientOptions);
 await client.connect();
 
 // Premère chose à faire, s'assurer que les tables sont bien vides

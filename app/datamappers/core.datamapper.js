@@ -23,49 +23,12 @@ export default class CoreDatamapper {
   }
 
   async create(input) {
-    const columns = Object.keys(input).map((column) => `"${column}"`);
-    const placeholders = Object.keys(input).map((_, index) => `$${index + 1}`); // 0 => $1, 1 => $2
-    const values = Object.values(input);
-
-    /*
-    columns ==> ['"label"', '"route"']
-    explication : `${columns}` ==> columns.toString() ==> columns.join() ==> 'label,route'
-
-    placeholders ==> ['$1', '$2']
-
-    values ==> ['Angular','/angular']
-    */
-
-    const result = await this.client.query(`
-      INSERT INTO "${this.constructor.writeTableName}"
-      (${columns})
-      VALUES (${placeholders})
-      RETURNING *
-    `, values);
+    const result = await this.client.query(`SELECT * FROM insert_${this.constructor.writeTableName}($1)`, [input]);
     return result.rows[0];
   }
 
   async update(id, input) {
-    const fieldPlaceholders = Object.keys(input).map((column, index) => `"${column}" = $${index + 1}`);
-    const values = Object.values(input);
-    /*
-    fieldPlaceholders ==> ['"label" = $1', '"route" = $2']
-    values ==> ['Angular','/angular']
-    */
-    const result = await this.client.query(`
-      UPDATE ${this.constructor.writeTableName} SET
-        ${fieldPlaceholders},
-        updated_at = now()
-      WHERE id = $${fieldPlaceholders.length + 1}
-      RETURNING *
-    `, [
-      ...values,
-      id,
-    ]);
-    /*
-    On aurai pu faire la requête :
-    values.id = id;
-    */
+    const result = await this.client.query(`SELECT * FROM update_${this.constructor.writeTableName}($1, $2)`, [id, input]);
     return result.rows[0];
   }
 
